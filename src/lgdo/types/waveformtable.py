@@ -7,6 +7,7 @@ data.
 from __future__ import annotations
 
 import logging
+from collections.abc import Collection
 from typing import Any
 
 import awkward as ak
@@ -16,6 +17,7 @@ import pandas as pd
 from .array import Array
 from .arrayofequalsizedarrays import ArrayOfEqualSizedArrays
 from .encoded import ArrayOfEncodedEqualSizedArrays, VectorOfEncodedVectors
+from .struct import Struct
 from .table import Table
 from .vectorofvectors import VectorOfVectors
 
@@ -188,6 +190,26 @@ class WaveformTable(Table):
         col_dict["dt"] = dt
         col_dict["values"] = values
         super().__init__(size=size, col_dict=col_dict, attrs=attrs)
+
+    def __getitem__(self, i) -> dict | Table:
+        if isinstance(i, str) or (
+            isinstance(i, Collection) and all(isinstance(k, str) for k in i)
+        ):
+            return Struct.__getitem__(self, i)
+
+        if isinstance(i, int):
+            i = slice(i, i + 1)
+
+        return WaveformTable(
+            t0=self.t0[i],
+            t0_units=self.t0_units,
+            dt=self.dt[i],
+            dt_units=self.dt_units,
+            values=self.values[i],
+            values_units=self.values_units,
+            wf_len=self.wf_len,
+            attrs={k: v for k, v in self.attrs.items() if k != "datatype"},
+        )
 
     @property
     def values(self) -> ArrayOfEqualSizedArrays | VectorOfVectors:

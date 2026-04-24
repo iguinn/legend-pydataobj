@@ -25,6 +25,28 @@ def test_init():
     assert (wft.values.nda == np.zeros(shape=(10, 1000))).all()
     assert wft.values.nda.dtype == np.float64
 
+    # test __getitem__
+    wf_slice = wft[1]
+    assert isinstance(wf_slice, WaveformTable)
+    assert len(wf_slice) == 1
+    assert wf_slice.values.shape == (1, 1000)
+    assert (wf_slice.dt.nda == np.full(1, fill_value=1)).all()
+    assert (wf_slice.t0.nda == np.zeros(1)).all()
+
+    wf_slice = wft[1:3]
+    assert isinstance(wf_slice, WaveformTable)
+    assert len(wf_slice) == 2
+    assert wf_slice.values.shape == (2, 1000)
+    assert (wf_slice.dt.nda == np.full(2, fill_value=1)).all()
+    assert (wf_slice.t0.nda == np.zeros(2)).all()
+
+    wf_slice = wft[[1, 3, 5]]
+    assert isinstance(wf_slice, WaveformTable)
+    assert len(wf_slice) == 3
+    assert wf_slice.values.shape == (3, 1000)
+    assert (wf_slice.dt.nda == np.full(3, fill_value=1)).all()
+    assert (wf_slice.t0.nda == np.zeros(3)).all()
+
     wft = WaveformTable(
         size=10, dt=np.zeros(5), t0=np.zeros(5), values=np.zeros((5, 50))
     )
