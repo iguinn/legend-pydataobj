@@ -205,6 +205,9 @@ class Array(LGDOCollection):
         if not isinstance(value, (Array, np.ndarray)):
             value = np.array(value, dtype=self.dtype)
 
+        if value.shape != () and len(value) == 0:
+            return
+
         if value.shape == self.shape[1:]:
             self.resize(len(self) + 1)
             self[i + 1 :] = self[i:-1]
