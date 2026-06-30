@@ -1,11 +1,11 @@
 from __future__ import annotations
 
+import pickle
+
 import numpy as np
 
 import lgdo
 from lgdo import WaveformTable
-
-import pickle
 
 
 def test_init():
@@ -122,6 +122,7 @@ def test_init():
     wft = WaveformTable(10, wf_len=20)
     wft.wf_len = 30
     assert wft.wf_len == 30
+
 
 def test_pickle():
     wft = WaveformTable(size=10, wf_len=1000)
