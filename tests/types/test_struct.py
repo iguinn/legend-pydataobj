@@ -231,7 +231,7 @@ def test_defer_update_datatype():
     assert "s4" in struct
     assert "s5" in struct
 
-    with pytest.raises(ValueError), struct.defer_update_datatype():
+    with pytest.raises(ValueError), struct.defer_update_datatype():  # noqa: PT012
         struct.add_field("s1", lgdo.Scalar(value=1))
         struct.add_field("s2", 2)  # raises
 
