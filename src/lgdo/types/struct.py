@@ -136,7 +136,7 @@ class Struct(LGDO, MutableMapping):
 
             self.obj_dict[name1] = obj
 
-            if self._defer_datatype==0:
+            if self._defer_datatype == 0:
                 self.update_datatype()
 
     def __getitem__(self, name: str | Collection[str]) -> LGDO:
@@ -226,7 +226,7 @@ class Struct(LGDO, MutableMapping):
             else:
                 self.pop(name1)
 
-            if self._defer_datatype==0:
+            if self._defer_datatype == 0:
                 self.update_datatype()
 
     def __str__(self) -> str:

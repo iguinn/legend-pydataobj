@@ -191,10 +191,12 @@ def test_defer_update_datatype():
     assert "s3" in struct
 
     with struct.defer_update_datatype():
-        struct.update( {
-            "s4": lgdo.Scalar(value=4),
-            "s5": lgdo.Scalar(value=5),
-        } )
+        struct.update(
+            {
+                "s4": lgdo.Scalar(value=4),
+                "s5": lgdo.Scalar(value=5),
+            }
+        )
         assert struct.attrs["datatype"] == "struct{s1,s2,s3}"
         assert "s1" in struct
         assert "s2" in struct
@@ -231,7 +233,7 @@ def test_defer_update_datatype():
 
     with pytest.raises(ValueError), struct.defer_update_datatype():
         struct.add_field("s1", lgdo.Scalar(value=1))
-        struct.add_field("s2", 2) # raises
+        struct.add_field("s2", 2)  # raises
 
     assert not struct._defer_datatype
     assert struct.attrs["datatype"] == "struct{s1,s4,s5}"
